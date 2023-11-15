@@ -16,26 +16,29 @@ import os.path
 from os import path
 warnings.filterwarnings('ignore')
 plt.rcParams['font.family'] = 'NanumGothic'
+#라이브러리 로드
 
-while True:
-    if(path.exists("1.check")):
-        f=open('C:/person data/project/require.txt','r')
+maxepcoin = 50
+
+while True: #항상 켜짐
+    if(path.exists("1.check")): #서버에서 require.txt를 업데이트할때 1.check(반복flag)와 함께 생성
+        os.remove('1.check') #반복flag 회수
+        f=open('C:/person data/project/require.txt','r') #require.txt 파일 열기
         s3= f.readlines()
-        print(s3[0][0:-1])
-        print(s3[1])
-        print('---')
-        STOCK_CODE = s3[0][0:-1]
-        epcoin = s3[1]
-        if(STOCK_CODE=='undefined' or epcoin=='undefined'):
-            os.remove('1.check')
-            continue
-        stock = fdr.DataReader(STOCK_CODE)
+        STOCK_CODE = s3[0][0:-1] #첫번째줄, \n 제거: 주식코드
+        epcoin = s3[1] #두번째줄: 학습횟수
+        print(s3[0][0:-1], s3[1]) #monitor
+        if(STOCK_CODE=='undefined' or epcoin=='undefined' or int(epcoin)<1 or int(epcoin)>maxepcoin): #서버 이상데이터 수신시
+            print('not process date') #monitor
+            continue #이번 반복은 넘김
+
+        stock = fdr.DataReader(STOCK_CODE) #주식데이터 FinanceDataReader를 이용해 불러옴
         stock['Year'] = stock.index.year
         stock['Month'] = stock.index.month
         stock['Day'] = stock.index.day
 
         scaler = MinMaxScaler()
-        # 스케일을 적용할 column을 정의합니다.
+        # 스케일을 적용할 column을 정의
         scale_cols = ['Open', 'High', 'Low', 'Close', 'Volume']
         # 스케일 후 columns
         scaled = scaler.fit_transform(stock[scale_cols])
@@ -54,7 +57,7 @@ while True:
             ds = ds.map(lambda w: (w[:-1], w[-1]))
             return ds.batch(batch_size).prefetch(1)
 
-        WINDOW_SIZE=20
+        WINDOW_SIZE=20 #분석 분할크기
         BATCH_SIZE=32
 
         train_data = windowed_dataset(y_train, WINDOW_SIZE, BATCH_SIZE, True)
@@ -95,12 +98,11 @@ while True:
         model.load_weights(filename)
         pred = model.predict(test_data)
 
+        #출력부
         plt.figure(figsize=(12, 9))
         plt.plot(np.asarray(y_test)[20:], label='actual')
         plt.plot(pred, label='prediction')
         plt.legend()
         filesave = os.path.join('public',STOCK_CODE+','+epcoin+'.png')
         plt.savefig(filesave)
-        os.remove('1.check')
-        print()
-        print('finish'+STOCK_CODE+epcoin)
+        print('finish '+STOCK_CODE+' '+epcoin) #monitor
