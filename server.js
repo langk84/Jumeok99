@@ -23,8 +23,7 @@ app.use(function(req, res, next) {
 	res.write('<div><p>학습 횟수 : ' + paramPassword + '</p></div>');
     res.write('<div><p>결과 페이지aistock.iptime.org/'+paramId+','+paramPassword+'.png</p></div>');
 	res.end();
-    console.log(paramId);
-    console.log(paramPassword);
+    console.log(paramId, paramPassword);
     const fs = require('fs');
     fs.writeFile('require.txt', paramId+'\n'+paramPassword, (err) => {
         if (err) console.log('Error: ', err);
@@ -38,6 +37,6 @@ app.use(function(req, res, next) {
 
 
 // Express 서버 시작
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(80, function(){
+  console.log('start server');
 });
