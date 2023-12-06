@@ -1,28 +1,30 @@
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import warnings
-import os
-import FinanceDataReader as fdr
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.model_selection import train_test_split
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM, Conv1D, Lambda
-from tensorflow.keras.losses import Huber
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-import os.path
-from os import path
-warnings.filterwarnings('ignore')
-plt.rcParams['font.family'] = 'NanumGothic'
+import pandas as pd # 데이터 조작과 분석
+import numpy as np # 다차원 배열과 행렬 연산
+import matplotlib.pyplot as plt # 데이터 시각화, 그래프 생성
+import FinanceDataReader as fdr #금융 데이터 수집
+from sklearn.preprocessing import MinMaxScaler #[0, 1] 범위로 스케일 조정
+from sklearn.model_selection import train_test_split #데이터를 학습용과 테스트용으로 분할
+import tensorflow as tf #딥러닝 및 기계 학습 모델을 구축
+from tensorflow.keras.models import Sequential #각 레이어를 차례로 쌓아 간단한 신경망 모델 생성
+from tensorflow.keras.layers import Dense #입력과 출력 간의 모든 뉴런이 서로 연결된 완전 연결 레이어를 생성
+from tensorflow.keras.layers import LSTM #Long Short-Term Memory 시퀀스 데이터에서 장기 의존성을 효과적으로 모델링하는 데 사용되는 순환 신경망
+from tensorflow.keras.layers import Conv1D #시계열 데이터나 텍스트와 같은 1차원 입력에 대한 특징 추출 및 패턴 학습
+from tensorflow.keras.losses import Huber #휴버 손실(Huber loss) 계산
+from tensorflow.keras.optimizers import Adam #신경망 학습 최적화 알고리즘(경사 하강법의 변형)
+from tensorflow.keras.callbacks import EarlyStopping #머신러닝 모델의 훈련을 조기에 중단하는 기능을 제공
+from tensorflow.keras.callbacks import ModelCheckpoint #훈련 중간에 모델의 성능이나 상태를 저장
+import os.path #파일 및 디렉토리 경로 이용
+from os import path #파일 및 디렉토리 경로를 조작
+import warnings #경고관리 및 제어
+warnings.filterwarnings('ignore') #실행중 경고 무시
+plt.rcParams['font.family'] = 'NanumGothic' #그래프에 사용되는 글꼴 정의
 #라이브러리 로드
 
 maxepcoin = 50
 
 while True: #항상 켜짐
-    if(path.exists("1.check")): #서버에서 require.txt를 업데이트할때 1.check(반복flag)와 함께 생성
-        os.remove('1.check') #반복flag 회수
+    if(path.exists("check.i")): #서버에서 require.txt를 업데이트할때 1.check(반복flag)와 함께 생성
+        os.remove('check.i') #반복flag 회수
         f=open('C:/person data/project/require.txt','r') #require.txt 파일 열기
         orgdata= f.readlines()
         STOCK_CODE = orgdata[0][0:-1] #첫번째줄, \n 제거: 주식코드
@@ -46,7 +48,7 @@ while True: #항상 켜짐
         stock['Month'] = stock.index.month
         stock['Day'] = stock.index.day
 
-        scaler = MinMaxScaler()
+        scaler = MinMaxScaler() #정규화(값을 0~1사이로 변경)
         # 스케일을 적용할 column을 정의
         scale_cols = ['Open', 'High', 'Low', 'Close', 'Volume']
         # 스케일 후 columns

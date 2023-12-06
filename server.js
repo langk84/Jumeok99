@@ -21,7 +21,7 @@ app.use(function(req, res, next) {
 	res.write('<h1>요청 수락됨</h1>');
 	res.write('<div><p>요청한 주식 : ' + paramId + '</p></div>');
 	res.write('<div><p>학습 횟수 : ' + paramPassword + '</p></div>');
-    res.write('<div><p>결과 페이지aistock.iptime.org/'+paramId+','+paramPassword+'.png</p></div>');
+    res.write('<div><p>결과 페이지localhost/'+paramId+','+paramPassword+'.png</p></div>');
 	res.end();
     console.log(paramId, paramPassword);
     const fs = require('fs');
@@ -29,7 +29,7 @@ app.use(function(req, res, next) {
         if (err) console.log('Error: ', err);
         else console.log('File created');
 });
-    fs.writeFile('1.check', ' ', (err) => {
+    fs.writeFile('check.i', ' ', (err) => {
     if (err) console.log('Error: ', err);
     else console.log('check');
 });
