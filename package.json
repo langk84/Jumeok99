@@ -1,7 +1,7 @@
 {
   "name": "project",
   "version": "1.0.0",
-  "description": "해당 프로젝트는 버그의 해결을 위해 잠시 해당 자리에 위치함\r 프로젝트가 종료되거나 버그가 해결되었을경우 즉시 메모/대학과제란으로 이동할것\r 경로에 한글이 있으면 버그가 발생하는 것으로 추정중\r 2023.11.14",
+  "description": "",
   "main": "test.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
