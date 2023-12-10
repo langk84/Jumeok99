@@ -21,7 +21,7 @@ app.use(function(req, res, next) {
 	res.write('<h1>요청 수락됨</h1>');
 	res.write('<div><p>요청한 주식 : ' + paramcode + '</p></div>');
 	res.write('<div><p>학습 횟수 : ' + paramtime + '</p></div>');
-    res.write('<div><p>결과 페이지 : localhost/'+paramcode+','+paramtime+'.png</p></div>');
+    res.write('<div><p>결과 페이지 : localhost:3500/'+paramcode+','+paramtime+'.png</p></div>');
 	res.end();
     console.log(paramcode, paramtime);
     const fs = require('fs');
