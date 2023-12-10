@@ -4,7 +4,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
   , static = require('serve-static');
 var app = express();
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || 3500);
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -37,6 +37,6 @@ app.use(function(req, res, next) {
 
 
 // Express 서버 시작
-http.createServer(app).listen(80, function(){
+http.createServer(app).listen(3500, function(){
   console.log('start server');
 });
