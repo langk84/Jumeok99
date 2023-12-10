@@ -116,7 +116,7 @@ while True: #항상 켜짐
 
         #출력부
         plt.figure(figsize=(12, 9))
-        plt.plot(np.asarray(y_test)[80:], label='실제값')
+        plt.plot(np.asarray(y_test)[20:], label='실제값')
         plt.plot(pred, label='예측값')
         plt.legend()
         filesave = os.path.join('public',STOCK_CODE+','+epcoin+'.png')

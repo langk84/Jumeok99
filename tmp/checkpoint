@@ -1,2 +1,2 @@
-model_checkpoint_path: "AAPL,1.ckpt"
-all_model_checkpoint_paths: "AAPL,1.ckpt"
+model_checkpoint_path: "AAPL,30.ckpt"
+all_model_checkpoint_paths: "AAPL,30.ckpt"
