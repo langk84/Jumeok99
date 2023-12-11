@@ -1,6 +1,6 @@
 ## 사용법
 1. server.js, ai.py 실행
-2. localhost/main.html
+2. localhost:3500/main.html
 3. 페이지 지시 이행
 
 ## 통신체계(코드전반해석)
