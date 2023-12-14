@@ -55,7 +55,7 @@ while True: #항상 켜짐
         scaled = scaler.fit_transform(stock[scale_cols])
 
         df = pd.DataFrame(scaled, columns=scale_cols)
-
+        #학습데이터, 훈련데이터 분리
         x_train, x_test, y_train, y_test = train_test_split(
             df.drop('Close', 1),
             df['Close'],
@@ -79,6 +79,7 @@ while True: #항상 켜짐
         train_data = windowed_dataset(y_train, WINDOW_SIZE, BATCH_SIZE, True)
         test_data = windowed_dataset(y_test, WINDOW_SIZE, BATCH_SIZE, False)
 
+        #딥러닝 모델 생성
         model = Sequential([
             # 1차원 feature map 생성
             Conv1D(filters=32, kernel_size=5,
@@ -99,7 +100,6 @@ while True: #항상 켜짐
         earlystopping = EarlyStopping(monitor='val_loss', patience=10)
         # val_loss 기준 체크포인터도 생성합니다.
         filename = os.path.join('tmp', STOCK_CODE+','+epcoin+'.ckpt')
-
         checkpoint = ModelCheckpoint(filename,
                                      save_weights_only=True,
                                      save_best_only=True,
@@ -111,10 +111,11 @@ while True: #항상 켜짐
                             epochs=int(epcoin),
                             callbacks=[checkpoint, earlystopping])
 
+        #딥러닝 완료
         model.load_weights(filename)
         pred = model.predict(test_data)
 
-        #출력부
+        #그래프 출력 설정
         plt.figure(figsize=(12, 9))
         plt.plot(np.asarray(y_test)[20:], label='실제값')
         plt.plot(pred, label='예측값')
